@@ -67,51 +67,8 @@ exports.signup = (req, res) => {
       });
     });
 
-    // User.findOne({ email: email }).then((user) => {
-    //   const access_token = jwt.sign(
-    //     { email: email, userId: user._id },
-    //     api_key.accessToken,
-    //     {
-    //       algorithm: "HS256",
-    //       expiresIn: api_key.accessTokenLife,
-    //     }
-    //   );
-    //   const referesh_token = jwt.sign({ email: email }, api_key.refereshToken, {
-    //     algorithm: "HS256",
-    //     expiresIn: api_key.refereshTokenLife,
-    //   });
-
-    //   return res.status(200).json({
-    //     message: "otp entered is correct, user successfully added",
-    //     access_token: access_token,
-    //     referesh_token: referesh_token,
-    //     userId: user._id.toString(),
-    //     username: user.name,
-    //   });
-    // });
     console.log("details saved in the database");
-
-    // otp = Math.floor(100000 + Math.random() * 900000);
-
-    // const OTP = new Otp({
-    //   otp: otp,
-    //   email: email,
-    // });
-
-    // OTP.save();
-    // console.log(otp);
-    // res.status(201).json({ message: "OTP sent to your Email" });
   });
-  // .then((res) => {
-  //   transporter.sendMail({
-  //     to: email,
-  //     from: "ayush1911052@akgec.ac.in",
-  //     subject: "OTP Verification",
-  //     html: ` '<h1>Please Verify your account using this OTP: !</h1>
-  //                     <p>OTP:${otp}</p>'`,
-  //   });
-  //   console.log("mail sent");
-  // });
 };
 
 exports.otpVerification = (req, res, next) => {
