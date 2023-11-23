@@ -42,6 +42,7 @@ exports.signup = (req, res) => {
       isverified: true,
       name: name,
       resetVerified: false,
+      courses: [],
     });
 
     Newuser.save().then((user) => {
@@ -67,8 +68,51 @@ exports.signup = (req, res) => {
       });
     });
 
+    // User.findOne({ email: email }).then((user) => {
+    //   const access_token = jwt.sign(
+    //     { email: email, userId: user._id },
+    //     api_key.accessToken,
+    //     {
+    //       algorithm: "HS256",
+    //       expiresIn: api_key.accessTokenLife,
+    //     }
+    //   );
+    //   const referesh_token = jwt.sign({ email: email }, api_key.refereshToken, {
+    //     algorithm: "HS256",
+    //     expiresIn: api_key.refereshTokenLife,
+    //   });
+
+    //   return res.status(200).json({
+    //     message: "otp entered is correct, user successfully added",
+    //     access_token: access_token,
+    //     referesh_token: referesh_token,
+    //     userId: user._id.toString(),
+    //     username: user.name,
+    //   });
+    // });
     console.log("details saved in the database");
+
+    // otp = Math.floor(100000 + Math.random() * 900000);
+
+    // const OTP = new Otp({
+    //   otp: otp,
+    //   email: email,
+    // });
+
+    // OTP.save();
+    // console.log(otp);
+    // res.status(201).json({ message: "OTP sent to your Email" });
   });
+  // .then((res) => {
+  //   transporter.sendMail({
+  //     to: email,
+  //     from: "ayush1911052@akgec.ac.in",
+  //     subject: "OTP Verification",
+  //     html: ` '<h1>Please Verify your account using this OTP: !</h1>
+  //                     <p>OTP:${otp}</p>'`,
+  //   });
+  //   console.log("mail sent");
+  // });
 };
 
 exports.otpVerification = (req, res, next) => {
@@ -436,4 +480,30 @@ exports.newPassword = (req, res, next) => {
       }
       next(err);
     });
+};
+
+exports.isPurchased = (req, res, next) => {
+  const userId = req.params.userid;
+  const courseId = req.params.courseid;
+
+  User.findById(userId, (err, user) => {
+    // if (err) {
+    //   // Handle the error, for example, send an error response to the client
+    //   return res.status(500).json({ error: "Internal Server Error" });
+    // }
+
+    // if (!user) {
+    //   // User not found, send a response indicating that
+    //   return res.status(404).json({ error: "User not found" });
+    // }
+
+    // Check if the user has purchased the course
+    console.log(userId);
+    console.log(user.courses);
+    const isPurchased = user.courses.includes(courseId);
+    console.log("ispurchased:", isPurchased);
+
+    // Send the result back to the client
+    res.json({ isPurchased });
+  });
 };

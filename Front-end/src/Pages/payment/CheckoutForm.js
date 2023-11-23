@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import {Link} from 'react-router-dom';
-import AuthService from '../../ApiServices/auth.service';
-import styles from './stripe.module.css';
+import { Link, Redirect } from "react-router-dom";
+import AuthService from "../../ApiServices/auth.service";
+import styles from "./stripe.module.css";
 
 export const CheckoutForm = (props) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [redirect, setRedirect] = useState(null);
 
   const handleSubmit = async (event) => {
-    console.log(elements.getElement(CardElement))
+    console.log(elements.getElement(CardElement));
     event.preventDefault();
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
@@ -18,25 +19,30 @@ export const CheckoutForm = (props) => {
 
     if (!error) {
       console.log("Stripe 23 | token generated!", paymentMethod);
-      const {id} = paymentMethod;
-      AuthService.StripePayment(
-        {
-          amount:100,
-          id:id
-        }
-      ).then(res=>{
-        console.log(res);
-        alert("Payment successful")
+      const { id } = paymentMethod;
+      AuthService.StripePayment({
+        amount: 100,
+        id: id,
+        courseId: props.courseId,
+        userId: localStorage.userId,
       })
-      .catch(err=>{
-        console.log(err)
-        alert("Payment Failed")
-      })
-      
+        .then((res) => {
+          console.log(res);
+          alert("Payment successful");
+          setTimeout(() => setRedirect("/course/all/"), 2000);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Payment Failed");
+        });
     } else {
       console.log(error.message);
     }
   };
+
+  if (redirect) {
+    return <Redirect to={redirect} />;
+  }
 
   return (
     <div className={styles.Checkout}>
@@ -44,12 +50,16 @@ export const CheckoutForm = (props) => {
       <div className={styles.Course}>
         <div className={styles.Course_detail}>
           <p>Course Name: </p>
-        
-            <span className={styles.courseName}>
-              <Link style={{textDecoration:"none"}} 
-              to={`/course/${props.courseName}/${props.courseId}`}> {props.courseName} </Link>
-            </span>
-   
+
+          <span className={styles.courseName}>
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/course/${props.courseName}/${props.courseId}`}
+            >
+              {" "}
+              {props.courseName}{" "}
+            </Link>
+          </span>
         </div>
 
         <div className={styles.Course_detail}>
@@ -61,15 +71,17 @@ export const CheckoutForm = (props) => {
           <p>Teacher Name: </p>
           <span className={styles.teacherName}> {props.teacherName} </span>
         </div>
-      
       </div>
-      <form onSubmit={handleSubmit} className={styles.CheckoutForm} style={{ maxWidth: 400}}>
+      <form
+        onSubmit={handleSubmit}
+        className={styles.CheckoutForm}
+        style={{ maxWidth: 400 }}
+      >
         <CardElement className={styles.CardElement} />
         <div className={styles.pay}>
-           <button >Pay </button>
+          <button>Pay </button>
         </div>
       </form>
     </div>
   );
-
-}
+};

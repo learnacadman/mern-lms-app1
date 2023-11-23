@@ -108,14 +108,8 @@ class CourseDesc extends Component {
           <div className="Course-teacher-name">
             <p>Created at {this.props.createdat}</p>
             <h2>By {this.props.teacher}</h2>
-            <Link
-              to={`/chat/?room=${this.state.CourseId}&CourseName=${
-                this.props.title
-              }&UserName=${localStorage.getItem(
-                "userName"
-              )}&userId=${localStorage.getItem("userId")}`}
-            >
-              <h4 className="Course_live_classes">Join Live discussion</h4>
+            <Link to={`/stripe/${this.props.CourseId}`}>
+              <h4 className="Course_live_classes">Buy the course</h4>
             </Link>
           </div>
 
