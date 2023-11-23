@@ -7,6 +7,42 @@
   height: auto;
 }
 
+/*overlay on video player */
+
+.player-wrapper {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Adjust the opacity by changing the last value (0.5) */
+  pointer-events: all; /* This makes the overlay block clicks */
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlaymessage {
+  background-color: red;
+  padding: 10px;
+  padding-bottom: -5px !important;
+  color: white;
+  border: 10px;
+  font-weight: 600;
+}
+
+/* overlay end */
+
 .Section2 {
   display: flex;
   flex-wrap: wrap;
@@ -81,9 +117,9 @@
   letter-spacing: 0.48px;
   color: #3c4852;
 }
-.react-stars-wrapper-0438576352612168{
- display:flex !important;
- justify-Content:center !important;
+.react-stars-wrapper-0438576352612168 {
+  display: flex !important;
+  justify-content: center !important;
 }
 
 @media (max-width: 1280px) {
