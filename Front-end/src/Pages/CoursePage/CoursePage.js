@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./CSS/CoursePage.css";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import CourseDesc from "./CourseDesc";
 import CourseVideo from "./CourseVideo";
 import axios from "../../ApiServices/axiosUrl";
@@ -155,7 +155,7 @@ class CoursePage extends Component {
   };
 
   render() {
-    if (this.state.redirect) return <Redirect to={this.state.redirect} />;
+    if (this.state.redirect) return <Navigate to={this.state.redirect} />;
 
     let title = null;
     let short_description = null;

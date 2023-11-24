@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import Loader from "react-loader-spinner";
+import { Navigate } from "react-router-dom";
+import * as Loader from "react-loader-spinner";
 import CartCard from "./CartCard";
 import "./CSS/Cart.css";
 import Layout from "../../components/Layout/Layout";
@@ -58,7 +58,7 @@ class Cart extends Component {
 
   render() {
     if (this.state.redirect !== null) {
-      return <Redirect to={this.state.redirect} />;
+      return <Navigate to={this.state.redirect} />;
     }
 
     let noOfCourses = null;

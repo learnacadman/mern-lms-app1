@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import AuthService from "../../ApiServices/auth.service";
 import styles from "./stripe.module.css";
 
@@ -41,7 +41,7 @@ export const CheckoutForm = (props) => {
   };
 
   if (redirect) {
-    return <Redirect to={redirect} />;
+    return <Navigate to={redirect} />;
   }
 
   return (
